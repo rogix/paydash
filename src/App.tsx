@@ -73,26 +73,28 @@ const App: React.FC = () => {
             Total Amount: ${totalAmount.toFixed(2)}
           </h5>
         </div>
-        <div className="flex mb-6 max-w-96">
-          <div className="w-full md:w-1/2">
-            <label className="block text-gray-700">Start Date</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date: Date | null) => setStartDate(date)}
-              dateFormat="yyyy-MM-dd"
-              className="mt-1 block w-full p-2 border border-none bg-[#1c1e21] rounded"
-              showIcon
-            />
-          </div>
-          <div className="w-full md:w-1/2">
-            <label className="block text-gray-700">End Date</label>
-            <DatePicker
-              selected={endDate}
-              onChange={(date: Date | null) => setEndDate(date)}
-              dateFormat="yyyy-MM-dd"
-              className="mt-1 block w-full p-2 border border-none bg-[#1c1e21] rounded"
-              showIcon
-            />
+        <div className="flex justify-start">
+          <div className="flex mb-6 max-w-96">
+            <div className="w-full md:w-1/2">
+              <label className="block text-gray-700">Start Date</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date: Date | null) => setStartDate(date)}
+                dateFormat="yyyy-MM-dd"
+                className="mt-1 block w-full p-2 border border-none bg-[#1c1e21] rounded"
+                showIcon
+              />
+            </div>
+            <div className="w-full md:w-1/2">
+              <label className="block text-gray-700">End Date</label>
+              <DatePicker
+                selected={endDate}
+                onChange={(date: Date | null) => setEndDate(date)}
+                dateFormat="yyyy-MM-dd"
+                className="mt-1 block w-full p-2 border border-none bg-[#1c1e21] rounded"
+                showIcon
+              />
+            </div>
           </div>
         </div>
         <main className="container rounded-lg p-5 mx-auto bg-[#26282d]">
