@@ -1,55 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { fetchTransactions } from "./api";
-import { Transaction } from "./types";
+import React, { useState } from "react";
+
 import TransactionList from "./components/TransactionList";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Header } from "./components/Header";
+import useFilteredTransactions from "./hooks/useFilteredTransactions";
+import useFetchTransactions from "./hooks/useFetchTransactions";
 
 const App: React.FC = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [filteredTransactions, setFilteredTransactions] = useState<
-    Transaction[]
-  >([]);
-  const [error, setError] = useState<string>("");
+  const { transactions, error, loading } = useFetchTransactions();
+
   const [startDate, setStartDate] = useState<Date | null>(
-    new Date("2021-01-01")
+    new Date("2024-09-15")
   );
   const [endDate, setEndDate] = useState<Date | null>(new Date());
-
-  useEffect(() => {
-    fetchTransactions()
-      .then((data) => {
-        setTransactions(data);
-        setFilteredTransactions(data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    filterTransactions();
-  }, [startDate, endDate, transactions]);
-
-  const filterTransactions = () => {
-    let filtered = transactions;
-
-    if (startDate) {
-      filtered = filtered.filter((tx) => new Date(tx.date) >= startDate);
-    }
-
-    if (endDate) {
-      filtered = filtered.filter((tx) => new Date(tx.date) <= endDate);
-    }
-
-    setFilteredTransactions(filtered);
-  };
+  const { filteredTransactions } = useFilteredTransactions(
+    transactions,
+    startDate,
+    endDate
+  );
 
   if (error) {
     return (
       <div className="max-w-4xl mx-auto mt-10">
         <div className="bg-red-100 text-red-700 p-4 rounded">{error}</div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto mt-10">
+        <div className="bg-blue-100 text-blue-700 p-4 rounded">Loading...</div>
       </div>
     );
   }
